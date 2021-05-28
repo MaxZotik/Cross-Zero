@@ -35,6 +35,40 @@ bool findWon(std::string strOne, std::string strTwo, std::string strThree, char 
     return false;
 }
 
+//find number of characters
+int countCharacter(std::string str, char ch){
+    int temp = 0;
+
+    for(int i = 0; i < str.length(); i++){
+        if(str[i] == ch){
+            temp ++;
+        }
+    }
+    return temp;
+}
+
+std::string findWinner(std::string strOne, std::string strTwo, std::string strThree){
+    std::string strSum = strOne + strTwo + strThree;
+
+    if(findWon(strOne, strTwo, strThree, 'X') && findWon(strOne, strTwo, strThree, 'O')){
+        return "There can't be two winners!";
+    }
+
+    if(findWon(strOne, strTwo, strThree, 'X') && countCharacter(strSum, 'X') > countCharacter(strSum, 'O')){
+        return "Petya won!";
+    }else if(findWon(strOne, strTwo, strThree, 'X') && countCharacter(strSum, 'X') <= countCharacter(strSum, 'O')){
+        return "\"X\" should be more than \"O\"";
+    }
+
+    if(findWon(strOne, strTwo, strThree, 'O') && countCharacter(strSum, 'X') == countCharacter(strSum, 'O')){
+        return "Vanya won!";
+    }else if(findWon(strOne, strTwo, strThree, 'O') && countCharacter(strSum, 'X') > countCharacter(strSum, 'O')){
+        return "\"X\" should not be more than \"O\"";
+    }
+
+    return "Nobody!";
+}
+
 int main() {
     std::string strOne, strTwo, strThree;
 
@@ -44,13 +78,7 @@ int main() {
     std::cin >> strOne >> strTwo >> strThree;
 
     if(checkingInput(strOne) && checkingInput(strTwo) && checkingInput(strThree)){
-        if(findWon(strOne, strTwo, strThree, 'X')){
-            std::cout << "Petya won!" << std::endl;
-        }else if(findWon(strOne, strTwo, strThree, 'O')){
-            std::cout << "Vanya won!" << std::endl;
-        } else{
-            std::cout << "Nobody!" << std::endl;
-        }
+        std::cout << findWinner(strOne, strTwo, strThree) << std::endl;
     }else{
         std::cout << "Input is incorrect!" << std::endl;
     }
